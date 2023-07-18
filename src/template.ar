@@ -1,0 +1,9 @@
+import "parser" as parser
+import "render" as render
+
+let template(path) = do
+    let File = file.read(path)
+    let html = File.text()
+    let parsed = parser.parse(html)
+    let r(values) = render.render(parsed, values)
+    return {render:r}

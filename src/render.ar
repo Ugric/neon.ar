@@ -1,0 +1,15 @@
+import "bleach.ar" as bleach
+
+let render(template, values) = do
+    let result = []
+    for (i from 0 to template.length) do
+        let item = template[i]
+        if (typeof(item) == "string") do
+            result.append(item)
+        else do
+            let code = item.code
+            let value = ""
+            if (code in values) do
+                value = values[code]
+            result.append(bleach.clean(value))
+    return result.join("")

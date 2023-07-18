@@ -1,0 +1,17 @@
+let parse(str) = do
+    let result = []
+    let split = str.split("{{")
+    for (i from 0 to split.length) do
+        let item = split[i]
+        if (i % 2 != 0) do
+            let split2 = item.splitN("}}", 2)
+            if (split2.length == 2) do
+                let code = split2[0].strip()
+                let text = split2[1]
+                result.append({code:code})
+                result.append(text)
+            else do
+                result.append(item)
+        else do
+            result.append(item)
+    return result
