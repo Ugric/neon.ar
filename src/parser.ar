@@ -8,7 +8,11 @@ let parse(str) = do
             if (split2.length == 2) do
                 let code = split2[0].strip()
                 let text = split2[1]
-                result.append({code:code})
+                let clean = true
+                if (code[0]=="%") do
+                    clean = false
+                    code = code[1:].strip()
+                result.append({value:code, clean:clean})
                 result.append(text)
             else do
                 result.append(item)

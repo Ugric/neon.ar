@@ -6,10 +6,12 @@ let render(template, values) = do
         let item = template[i]
         if (typeof(item) == "string") do
             result.append(item)
-        else do
-            let code = item.code
+        else if ("value" in item) do
+            let code = item.value
             let value = ""
             if (code in values) do
                 value = values[code]
-            result.append(bleach.clean(value))
+            if (item.clean) do
+                value = bleach.clean(value)
+            result.append(value)
     return result.join("")
