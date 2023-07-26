@@ -10,7 +10,7 @@ let render(template, values) = do
         result.append(text[last:pointer.pos])
         let value = ""
         if (pointer.variable in values) do
-            value = values[pointer.variable]
+            value = string(values[pointer.variable])
         if (pointer.clean) do
             value = bleach.clean(value)
         result.append(value)
