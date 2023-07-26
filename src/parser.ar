@@ -15,5 +15,4 @@ let parse(str) = do
       length=length + endcurlysplit[1].length
       text.append(endcurlysplit[1])
     cache.text = text.join('')
-    cache.pointers.sort(false,(x) = x.pos)
     return cache
