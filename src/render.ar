@@ -8,7 +8,9 @@ let render(template, values) = do
     for (i from 0 to pointers.length) do
         let pointer = pointers[i]
         result.append(text[last:pointer.pos])
-        let value = values[pointer.variable]
+        let value = ""
+        if (pointer.variable in values) do
+            value = values[pointer.variable]
         if (pointer.clean) do
             value = bleach.clean(value)
         result.append(value)
