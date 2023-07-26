@@ -1,17 +1,17 @@
 import "bleach.ar" as bleach
 
 let render(template, values) = do
+    let text = template.text
+    let pointers = template.pointers
     let result = []
-    for (i from 0 to template.length) do
-        let item = template[i]
-        if (typeof(item) == "string") do
-            result.append(item)
-        else if ("value" in item) do
-            let code = item.value
-            let value = ""
-            if (code in values) do
-                value = values[code]
-            if (item.clean) do
-                value = bleach.clean(value)
-            result.append(value)
-    return result.join("")
+    let last = 0
+    for (i from 0 to pointers.length) do
+        let pointer = pointers[i]
+        result.append(text[last:pointer.pos])
+        let value = values[pointer.variable]
+        if (pointer.clean) do
+            value = bleach.clean(value)
+        result.append(value)
+        last = pointer.pos
+    result.append(text[last:])
+    return result.join('')

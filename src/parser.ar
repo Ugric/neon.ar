@@ -1,21 +1,19 @@
 let parse(str) = do
-    let result = []
-    let split = str.split("{{")
-    for (i from 0 to split.length) do
-        let item = split[i]
-        if (i % 2 != 0) do
-            let split2 = item.splitN("}}", 2)
-            if (split2.length == 2) do
-                let code = split2[0].strip()
-                let text = split2[1]
-                let clean = true
-                if (code[0]=="%") do
-                    clean = false
-                    code = code[1:].strip()
-                result.append({value:code, clean:clean})
-                result.append(text)
-            else do
-                result.append(item)
-        else do
-            result.append(item)
-    return result
+    let cache = {text: str, pointers: []}
+
+    let curlysplit = cache.text.split('{{')
+    let text = [curlysplit[0]]
+    let length = curlysplit[0].length
+    for (i from 1 to curlysplit.length) do
+      let endcurlysplit = curlysplit[i].splitN('}}', 2)
+      let key = endcurlysplit[0].strip()
+      let clean = true
+      if (key[0] == "%") do
+        key = key[1:].strip()
+        clean = false
+      cache.pointers.append({pos: length, variable: key, clean:clean})
+      length=length + endcurlysplit[1].length
+      text.append(endcurlysplit[1])
+    cache.text = text.join('')
+    cache.pointers.sort(false,(x) = x.pos)
+    return cache
