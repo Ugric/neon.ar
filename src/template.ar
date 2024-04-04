@@ -1,8 +1,16 @@
-import "parser" as parser
-import "render" as render
+import "__parser" as *
+import "__render" as *
 
-let template(path) = do
-    let File = file.read(path)
-    let html = File.text()
-    let parsed = parser.parse(html)
-    return {render:(values) = render.render(parsed, values)}
+let template(pathToTemplate) = do
+    let File = file.read(pathToTemplate)
+    let parsed = __parser(File.text())
+    File.close()
+    File = null
+    let output = {}
+    output.render(values) = do
+        let stack = [values]
+        let output = []
+        for (i from 0 to parsed.length) do
+            output.append(__render(parsed[i], stack))
+        return output.join('')
+    return output

@@ -1,3 +1,3 @@
 import "src" as neon
 
-term.log(neon.template("./templates/index.html").render({username:"<script>William</script>"}))
+term.log(neon.template("./templates/index.njk").render({username:"<script>console.log('hello world')</script>"}))

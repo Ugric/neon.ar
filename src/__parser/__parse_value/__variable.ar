@@ -1,0 +1,13 @@
+let __variable_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'
+let __variable_numbers = '1234567890'
+
+let __is_variable(value) = do
+    value = value.strip(" \n")
+    if (value.length ==0) return false
+    for (i from 0 to value.length) do
+        let char = value[i]
+        if (not (char in __variable_chars || (i>0 &&( char not in __variable_numbers)))) return false
+    return true
+
+
+let __variable(value) = {type:"variable", name:value.strip(" \n")}

@@ -1,0 +1,4 @@
+import "__variable" as *
+
+let __parse_value(value) = do
+    if (__is_variable(value)) return {type:"value", value:__variable(value)}

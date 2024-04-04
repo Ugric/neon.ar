@@ -1,0 +1,40 @@
+import "__parse_value" as *
+
+let startingsIndex = {'{': 0}
+let startings = ["{"]
+let endings = ["}"]
+
+let __parser(html) = do
+    let positions = []
+
+    let output = []
+    let insideTemplate = false
+    let templateType = null
+    let lastPos = 0
+    let i = 0
+    while (i < html.length) do
+        if (insideTemplate) do
+            let splitted  = html[i:].split(endings[templateType]+"}")
+            if (splitted.length == 0) throwError("parsing error in neon.ar", "invalid syntax")
+            let looking_at = 0
+            let parsedText = null
+            let parsed = null
+            while ((not parsed) && looking_at < splitted.length-1) do
+                looking_at+=1
+                parsedText = splitted[:looking_at].join(endings[templateType]+"}")
+                if (templateType == 0) parsed = __parse_value(parsedText)
+            if (not parsed) throwError("parsing error in neon.ar", "invalid value: "+splitted[:-1].join(endings[templateType]+"}"))
+            output.append(parsed)
+            i+=parsedText.length+2
+            insideTemplate = false
+            lastPos = i
+        else do
+            if (html[i] != "{" || i+1>=html.length || html[i+1] not in startings) do
+                i+=1
+                continue
+            insideTemplate = true
+            templateType = startingsIndex[html[i+1]]
+            output.append({type:"html", html:html[lastPos:i]})
+            i+=2
+    output.append({type:"html", html:html[lastPos:]})
+    return output

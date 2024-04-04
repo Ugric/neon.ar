@@ -1,0 +1,24 @@
+import "bleach.ar" as bleach
+
+
+let __switch = {}
+
+
+__switch.html(segment, stack) = segment.html
+
+
+__switch.value(segment, stack) = do
+    let value = __render(segment.value, stack)
+    if (not value) return ""
+    return bleach.clean(string(value))
+
+
+__switch.variable(segment, stack) = do
+    value = null
+    for (i from 0 to stack.length) do
+        let scope = stack[stack.length-i-1]
+        if (segment.name in scope) do
+            return scope[segment.name]
+    
+
+let __render(segment, stack) = __switch[segment.type](segment, stack)
