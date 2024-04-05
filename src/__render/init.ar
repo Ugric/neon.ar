@@ -19,6 +19,8 @@ __switch.variable(segment, stack) = do
         let scope = stack[stack.length-i-1]
         if (segment.name in scope) do
             return scope[segment.name]
+
+__switch.json(segment, stack) = json.parse(segment.json)
     
 
 let __render(segment, stack) = __switch[segment.type](segment, stack)

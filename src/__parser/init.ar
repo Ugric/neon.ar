@@ -1,8 +1,9 @@
 import "__parse_value" as *
+import "__parse_comment" as *
 
-let startingsIndex = {'{': 0}
-let startings = ["{"]
-let endings = ["}"]
+let startingsIndex = {'{': 0, '%': 1, '#': 2}
+let startings = ["{", "%", "#"]
+let endings = ["}", "%", "#"]
 
 let __parser(html) = do
     let positions = []
@@ -18,13 +19,14 @@ let __parser(html) = do
             if (splitted.length == 0) throwError("parsing error in neon.ar", "invalid syntax")
             let looking_at = 0
             let parsedText = null
-            let parsed = null
-            while ((not parsed) && looking_at < splitted.length-1) do
+            let parsed = {hasParsed:false}
+            while ((not parsed.hasParsed) && looking_at < splitted.length-1) do
                 looking_at+=1
                 parsedText = splitted[:looking_at].join(endings[templateType]+"}")
                 if (templateType == 0) parsed = __parse_value(parsedText)
-            if (not parsed) throwError("parsing error in neon.ar", "invalid value: "+splitted[:-1].join(endings[templateType]+"}"))
-            output.append(parsed)
+                else if (templateType == 2) parsed = __parse_comment(parsedText)
+            if (not parsed) throwError("parsing error in neon.ar", "invalid syntax")
+            if (parsed.value) output.append(parsed.value)
             i+=parsedText.length+2
             insideTemplate = false
             lastPos = i

@@ -1,3 +1,3 @@
 import "src" as neon
 
-term.log(neon.template("./templates/index.njk").render({username:"<script>console.log('hello world')</script>", title:"Youtube"}))
+term.log(neon.template("./templates/index.njk").render({username:"Ugric", title:random()}))

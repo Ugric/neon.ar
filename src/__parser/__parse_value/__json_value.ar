@@ -1,0 +1,8 @@
+let __is_json_value(value) = do
+    try do
+        json.parse(value.strip())
+        return true
+    catch (_) return false
+
+
+let __json_value(value) = {type:"json", json: value.strip()}
