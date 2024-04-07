@@ -1,0 +1,18 @@
+import "__parse_value" as __pv
+
+let __operations = ["-", "+", "*", "%", "/", "//", "**"]
+
+let __operation(value) = do
+    for (i from 0 to __operations.length) do
+        let operation = __operations[i]
+        let split = value.split(operation)
+        if (split.length == 1) continue
+        for (j from 1 to split.length) do
+            let A = split[:j].join(operation)
+            let B = split[j:].join(operation)
+            let AParsed = __pv.__parse_value(A)
+            if (not AParsed.hasParsed) continue
+            let BParsed = __pv.__parse_value(B) 
+            if (not BParsed.hasParsed) continue
+            return {type:"operation", A:AParsed.value, B:BParsed.value, operation: operation}
+    return null

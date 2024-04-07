@@ -1,7 +1,2 @@
-import "__variable" as *
-import "__json_value" as *
-
-let __parse_value(value) = do
-    if (__is_variable(value)) return {hasParsed: true, value: {type:"value", value:__variable(value)}}
-    if (__is_json_value(value)) return {hasParsed: true, value: {type:"value", value:__json_value(value)}}
-    return {hasParsed: false, value:null}
+import "__parse_value" as *
+import "__parse_clean" as *

@@ -1,0 +1,3 @@
+import "__switch" as *
+
+let __render(segment, stack) = __switch[segment.type](segment, stack)

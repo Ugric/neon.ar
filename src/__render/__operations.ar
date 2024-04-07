@@ -1,0 +1,16 @@
+import "__switch" as *
+import "__render" as *
+
+let __operation = {}
+__operation['-'](a,b) = a-b
+__operation['+'](a,b) = a+b
+__operation['*'](a,b) = a*b
+__operation['%'](a,b) = a%b
+__operation['/'](a,b) = a/b
+__operation['//'](a,b) = a//b
+__operation['**'](a,b) = a^b
+
+__switch.operation(segment, stack) = do
+    let A = __render(segment.A,stack)
+    let B = __render(segment.B,stack)
+    return __operation[segment.operation](A,B)

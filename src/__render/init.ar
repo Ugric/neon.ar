@@ -1,16 +1,17 @@
+import "__switch" as *
 import "bleach.ar" as bleach
-
-
-let __switch = {}
+import "__operations"
+import "__render" as *
 
 
 __switch.html(segment, stack) = segment.html
 
 
-__switch.value(segment, stack) = do
+__switch.clean(segment, stack) = do
     let value = __render(segment.value, stack)
-    if (not value) return ""
-    return bleach.clean(string(value))
+    if (value) return bleach.clean(string(value))
+    return ""
+    
 
 
 __switch.variable(segment, stack) = do
@@ -21,6 +22,3 @@ __switch.variable(segment, stack) = do
             return scope[segment.name]
 
 __switch.json(segment, stack) = json.parse(segment.json)
-    
-
-let __render(segment, stack) = __switch[segment.type](segment, stack)

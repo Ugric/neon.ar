@@ -1,0 +1,11 @@
+import "__variable" as *
+import "__json_value" as *
+import "__operation" as *
+import "__parse_lookup" as *
+
+let __parse_value(value) = do
+    if (__is_json_value(value)) return {hasParsed: true, value: __json_value(value)}
+    else if (__is_variable(value)) return {hasParsed: true, value: __variable(value)}
+    else if (let x = __parse_lookup(value)) return {hasParsed: true, value: x}
+    else if (let x = __operation(value)) return {hasParsed: true, value: x}
+    return {hasParsed: false, value:null}

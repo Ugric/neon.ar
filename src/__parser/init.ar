@@ -23,9 +23,10 @@ let __parser(html) = do
             while ((not parsed.hasParsed) && looking_at < splitted.length-1) do
                 looking_at+=1
                 parsedText = splitted[:looking_at].join(endings[templateType]+"}")
-                if (templateType == 0) parsed = __parse_value(parsedText)
+                if (templateType == 0) parsed = __parse_clean(parsedText)
+                else if (templateType == 1) parsed = {hasParsed: true, value: null}
                 else if (templateType == 2) parsed = __parse_comment(parsedText)
-            if (not parsed) throwError("parsing error in neon.ar", "invalid syntax")
+            if (not parsed.hasParsed) throwError("parsing error in neon.ar", "invalid syntax")
             if (parsed.value) output.append(parsed.value)
             i+=parsedText.length+2
             insideTemplate = false
@@ -38,5 +39,6 @@ let __parser(html) = do
             templateType = startingsIndex[html[i+1]]
             output.append({type:"html", html:html[lastPos:i]})
             i+=2
+    if (insideTemplate) throwError("parsing error in neon.ar", "invalid syntax")
     output.append({type:"html", html:html[lastPos:]})
     return output

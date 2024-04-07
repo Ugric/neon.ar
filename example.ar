@@ -1,3 +1,5 @@
 import "src" as neon
 
-term.log(neon.template("./templates/index.njk").render({username:"Ugric", title:random()}))
+let i = PI
+
+term.log(neon.template("./templates/index.njk").render({username:"<script>console.log("+fraction(i)+", "+i+")<\\script>", title:random()}))
