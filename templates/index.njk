@@ -8,8 +8,10 @@
         <h1>Home</h1>
         <p>Hi,
             {{username|length}}</p>
-        {%- if title|length -%}
+        {%if username =="grewge"-%}
             <h1>{{username}}</h1>
-        {%- endif -%}
+        {%-else-%}
+        Hello World
+        {%-endif%}
     </body>
 </html>

@@ -7,10 +7,5 @@ let template(pathToTemplate) = do
     File.close()
     File = null
     let output = {}
-    output.render(values) = do
-        let stack = [create_built_ins(),values]
-        let output = []
-        for (i from 0 to parsed.length) do
-            output.append(__render(parsed[i], stack))
-        return output.join('')
+    output.render(values) = __render_segments(parsed, [create_built_ins(),values])
     return output

@@ -1,3 +1,10 @@
 import "__switch" as *
 
 let __render(segment, stack) = __switch[segment.type](segment, stack)
+
+let __render_segments(segments, stack) = do
+    let output = []
+    for (i from 0 to segments.length) do
+        let value = __render(segments[i], stack)
+        if (value!=null) output.append(value)
+    return output.join('')

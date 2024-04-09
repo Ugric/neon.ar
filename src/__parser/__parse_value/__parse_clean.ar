@@ -2,5 +2,7 @@ import "__parse_value" as *
 
 let __parse_clean(value) = do
     let parsed_value = __parse_value(value)
-    if (parsed_value.hasParsed) return {hasParsed: true, value: {type: "clean", value:parsed_value.value}}
+    if (parsed_value.hasParsed) do
+        if (("shouldClean" in parsed_value) && (not parsed_value.shouldClean)) return parsed_value
+        return {hasParsed: true, value: {type: "clean", value:parsed_value.value}}
     return {hasParsed: false, value:null}

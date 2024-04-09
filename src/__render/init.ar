@@ -35,3 +35,9 @@ __switch.lookup(segment, stack) = do
     let value = __render(segment.value, stack)
     let lookup = __render(segment.lookup, stack)
     if (lookup in value) return value[lookup]
+
+__switch.if(segment, stack) = do
+    for (i from 0 to segment.blocks.length) do
+        let condition = __render(segment.blocks[i].condition, stack)
+        if (condition) return __render_segments(segment.blocks[i].block, stack.concat([{}]))
+    return __render_segments(segment.else, stack.concat([{}]))

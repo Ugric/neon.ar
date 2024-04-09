@@ -30,7 +30,21 @@ let __parser(html) = do
                 looking_at+=1
                 parsedText = splitted[:looking_at].join(endings[templateType]+"}")
                 if (templateType == 0) parsed = __parse_clean(parsedText)
-                else if (templateType == 1) parsed = __parse_code(parsedText)
+                else if (templateType == 1) do
+                    let value = parsedText
+                    if (value.length >= 2) do
+                        preStrip = value[0] == "-"
+                        if (preStrip) value = value[1:]
+                        postStrip = value[-1] == "-"
+                        if (postStrip) value = value[:-1]
+                    value = value.leftstrip(" \n")
+                    let split = value.splitN(" ", 2)
+                    let command = split[0].lower()
+                    if (not __is_variable(command)) parsed = {hasParsed: false, value:null}
+                    else do
+                        let value = null
+                        if (split.length==2) value = split[1]
+                        parsed = {hasParsed: true, value:{type: "code",command:command, value:value}}
                 else if (templateType == 2) parsed = __parse_comment(parsedText)
             if (not parsed.hasParsed) throwError("parsing error in neon.ar", "invalid syntax")
             if (preStrip && output[-1].type =="html") output[-1].html=output[-1].html.rightstrip(" \n")
@@ -50,4 +64,7 @@ let __parser(html) = do
     if (insideTemplate) throwError("parsing error in neon.ar", "invalid syntax")
     output.append({type:"html", html:html[lastPos:]})
     if (postStrip) output[-1].html=output[-1].html.leftstrip(" \n")
+
+    output = __parse_code(output)
+
     return output

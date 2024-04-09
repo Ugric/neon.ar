@@ -20,6 +20,7 @@ let _x_parse_value(value) = do
     return {hasParsed: false, value:null}
 
 let __parse_value(value) = do
+    value = value.strip()
     if (value in __cache) return __cache[value]
     let resp = _x_parse_value(value)
     __cache[value] = resp
