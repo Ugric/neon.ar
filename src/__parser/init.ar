@@ -1,5 +1,6 @@
 import "__parse_value" as *
 import "__parse_comment" as *
+import "__parse_code" as *
 
 let startingsIndex = {'{': 0, '%': 1, '#': 2}
 let startings = ["{", "%", "#"]
@@ -29,14 +30,7 @@ let __parser(html) = do
                 looking_at+=1
                 parsedText = splitted[:looking_at].join(endings[templateType]+"}")
                 if (templateType == 0) parsed = __parse_clean(parsedText)
-                else if (templateType == 1) do
-                    let parsedText = parsedText
-                    if (parsedText.length >= 2) do
-                        preStrip = parsedText[0:2] == "- "
-                        if (preStrip) parsedText = parsedText[1:]
-                        postStrip = parsedText[-2:] == " -"
-                        if (postStrip) parsedText = parsedText[:-1]
-                    parsed = {hasParsed: true, value:null}
+                else if (templateType == 1) parsed = __parse_code(parsedText)
                 else if (templateType == 2) parsed = __parse_comment(parsedText)
             if (not parsed.hasParsed) throwError("parsing error in neon.ar", "invalid syntax")
             if (preStrip && output[-1].type =="html") output[-1].html=output[-1].html.rightstrip(" \n")

@@ -8,8 +8,8 @@
         <h1>Home</h1>
         <p>Hi,
             {{username|length}}</p>
-        {%if title|length -%}
+        {%- if title|length -%}
             <h1>{{username}}</h1>
-            {%- endif%}
-        </body>
-    </html>
+        {%- endif -%}
+    </body>
+</html>
