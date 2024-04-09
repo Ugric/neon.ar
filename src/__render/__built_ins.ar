@@ -1,0 +1,6 @@
+let create_built_ins() = do
+    let built_ins = {}
+    built_ins.length(args, kargs) = do
+        if (args.length != 1) throwError("Runtime Error", "length filter takes exactly 1 argument")
+        return args[0].length
+    return built_ins

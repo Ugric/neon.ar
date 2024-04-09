@@ -2,10 +2,25 @@ import "__variable" as *
 import "__json_value" as *
 import "__operation" as *
 import "__parse_lookup" as *
+import "__parse_string" as *
+import "__parse_not" as *
+import "__parse_filter" as *
 
-let __parse_value(value) = do
-    if (__is_json_value(value)) return {hasParsed: true, value: __json_value(value)}
+let __cache = {}
+
+let _x_parse_value(value) = do
+    if (let x = __parse_string(value)) return {hasParsed: true, value: x}
+    if (let x = __parse_not(value)) return {hasParsed: true, value: x}
+    if (let x = __parse_lookup_dot(value)) return {hasParsed: true, value: x}
+    else if (__is_json_value(value)) return {hasParsed: true, value: __json_value(value)}
     else if (__is_variable(value)) return {hasParsed: true, value: __variable(value)}
-    else if (let x = __parse_lookup(value)) return {hasParsed: true, value: x}
+    if (let x = __parse_filter(value)) return {hasParsed: true, value: x}
+    else if (let x = __parse_lookup_get(value)) return {hasParsed: true, value: x}
     else if (let x = __operation(value)) return {hasParsed: true, value: x}
     return {hasParsed: false, value:null}
+
+let __parse_value(value) = do
+    if (value in __cache) return __cache[value]
+    let resp = _x_parse_value(value)
+    __cache[value] = resp
+    return resp

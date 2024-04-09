@@ -1,0 +1,8 @@
+import "__parse_value" as pv
+
+let __parse_not(value) = do
+    value = value.strip()
+    if (not value.startswith("not ")) return
+    let parsed = pv.__parse_value(value[4:].strip())
+    if (not parsed.hasParsed) return
+    return {type:'not', value: parsed.value}

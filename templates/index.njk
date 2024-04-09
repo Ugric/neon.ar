@@ -2,14 +2,14 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
-        <title>{{username}}</title>
+        <title>{{title}}</title>
     </head>
     <body>
         <h1>Home</h1>
         <p>Hi,
-            {{username}}!</p>
-        {% if variable %}
-            It is true
-        {% endif %}
-    </body>
-</html>
+            {{username|length}}</p>
+        {%if title|length -%}
+            <h1>{{username}}</h1>
+            {%- endif%}
+        </body>
+    </html>

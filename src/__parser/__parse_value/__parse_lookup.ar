@@ -1,2 +1,27 @@
-let __parse_lookup(value) = do
-    
+import "__variable" as *
+import "__parse_value" as pv
+
+let __parse_lookup_dot(value) = do
+    value = value.strip()
+    let dotSplit = value.split(".")
+    if (dotSplit.length == 1) return
+    if (not __is_variable(dotSplit[-1])) return
+    let toLookup = dotSplit[:-1].join(".")
+    let toLookupParsed = pv.__parse_value(toLookup)
+    if (not toLookupParsed.hasParsed) return
+    return {type: 'lookup', value: toLookupParsed.value, lookup: {type:"json", json:json.stringify(dotSplit[-1])}}
+
+let __parse_lookup_get(value) = do
+    value = value.strip()
+    if (value.length == 0 || value[-1] != "]") return
+    value = value[:-1]
+    let split = value.split('[')
+    if (split.length == 1) return
+    for (i from 1 to split.length) do
+        let unparsedValue = split[:i].join("[")
+        let unparsedLookup = split[i:].join("[")
+        let parsedValue = pv.__parse_value(unparsedValue)
+        if (not parsedValue.hasParsed) continue
+        let parsedLookup = pv.__parse_value(unparsedLookup)
+        if (not parsedLookup.hasParsed) continue
+        return {type: 'lookup', value: parsedValue.value, lookup: parsedLookup.value}

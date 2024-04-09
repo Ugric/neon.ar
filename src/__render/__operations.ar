@@ -9,6 +9,17 @@ __operation['%'](a,b) = a%b
 __operation['/'](a,b) = a/b
 __operation['//'](a,b) = a//b
 __operation['**'](a,b) = a^b
+__operation['=='](a,b) = a==b
+__operation['==='](a,b) = a==b
+__operation['!='](a,b) = a!=b
+__operation['!=='](a,b) = a!=b
+__operation['>'](a,b) = a>b
+__operation['>='](a,b) = a>=b
+__operation['<'](a,b) = a<b
+__operation['<='](a,b) = a<=b
+__operation[' or '](a,b) = a||b
+__operation[' and '](a,b) = a||b
+
 
 __switch.operation(segment, stack) = do
     let A = __render(segment.A,stack)

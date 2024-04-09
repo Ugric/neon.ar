@@ -1,0 +1,7 @@
+let __parse_string(value) = do
+    let str = value.strip()
+    try do
+        if (str[0]=="'" && str[-1]=="'") str = "\""+str[1:-1].replace("\"", "\\\"").replace("\\\\\"", "\\\"").replace("\\'", "'")+"\""
+        json.parse(str)
+        return {type:"json", json:str}
+    catch (_) return null

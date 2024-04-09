@@ -1,5 +1,16 @@
 import "src" as neon
 
-let i = PI
 
-term.log(neon.template("./templates/index.njk").render({username:"<script>console.log("+fraction(i)+", "+i+")<\\script>", title:random()}))
+term.time("both")
+term.time("template")
+let template = neon.template("./templates/index.njk")
+term.timeEnd("template")
+
+term.time("render")
+let render = template.render({username:"Ugric", title:"Ugric's Profile"})
+term.timeEnd("render")
+term.timeEnd("both")
+
+let File = file.write("output.html")
+File.text(render)
+File.close()

@@ -1,6 +1,6 @@
 import "__parse_value" as __pv
 
-let __operations = ["-", "+", "*", "%", "/", "//", "**"]
+let __operations = ["-", "+", "*", "%", "/", "//", "**", "==", "===", "!=", "!==", ">", ">=", "<", "<=", " or ", " and "]
 
 let __operation(value) = do
     for (i from 0 to __operations.length) do

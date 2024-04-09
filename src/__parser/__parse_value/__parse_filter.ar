@@ -1,0 +1,11 @@
+import '__parse_value' as pv
+
+let __parse_filter(value) = do
+    let split = value.split('|')
+    if (split.length == 1) return
+    for (i from 1 to split.length) do
+        let leftParsed = pv.__parse_value(split[:i].join("|"))
+        if (not leftParsed.hasParsed) continue
+        let rightParsed = pv.__parse_value(split[i:].join("|"))
+        if (not rightParsed.hasParsed) continue
+        return {type:"filter", value: leftParsed.value, filter: rightParsed.value}

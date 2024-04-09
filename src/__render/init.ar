@@ -2,6 +2,7 @@ import "__switch" as *
 import "bleach.ar" as bleach
 import "__operations"
 import "__render" as *
+import "__built_ins" as *
 
 
 __switch.html(segment, stack) = segment.html
@@ -9,10 +10,17 @@ __switch.html(segment, stack) = segment.html
 
 __switch.clean(segment, stack) = do
     let value = __render(segment.value, stack)
-    if (value) return bleach.clean(string(value))
+    if (value != null) return bleach.clean(string(value))
     return ""
     
+__switch.not(segment, stack) = do
+    let value = __render(segment.value, stack)
+    return not value
 
+__switch.filter(segment, stack) = do
+    let value = __render(segment.value, stack)
+    let filter = __render(segment.filter, stack)
+    return filter([value], {})
 
 __switch.variable(segment, stack) = do
     value = null
@@ -22,3 +30,8 @@ __switch.variable(segment, stack) = do
             return scope[segment.name]
 
 __switch.json(segment, stack) = json.parse(segment.json)
+
+__switch.lookup(segment, stack) = do
+    let value = __render(segment.value, stack)
+    let lookup = __render(segment.lookup, stack)
+    if (lookup in value) return value[lookup]
