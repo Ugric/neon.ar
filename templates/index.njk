@@ -6,12 +6,18 @@
     </head>
     <body>
         <h1>Home</h1>
-        <p>Hi,
-            {{username|length}}</p>
-        {%if username =="grewge"-%}
+        <p>Hi, {{username}}</p>
+        {%- for char in username%}
+        <h1>{{char}}</h1>
+        {% endfor %}
+        <h1>Hello, {%if username=="sus"-%}
             <h1>{{username}}</h1>
+        {%-elif username=="Ugric"-%}
+            Master
+        {%-elseif username=="Oli"-%}
+            sussy baka
         {%-else-%}
-        Hello World
-        {%-endif%}
+        Mortal
+        {%-endif%}</h1>
     </body>
 </html>

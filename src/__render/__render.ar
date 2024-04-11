@@ -6,5 +6,5 @@ let __render_segments(segments, stack) = do
     let output = []
     for (i from 0 to segments.length) do
         let value = __render(segments[i], stack)
-        if (value!=null) output.append(value)
+        if (value!=null) output.append(string(value))
     return output.join('')

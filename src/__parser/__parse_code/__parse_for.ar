@@ -1,0 +1,20 @@
+import "../__parse_value" as *
+import "../__parse_value/__variable" as *
+import "__parse_code" as pc
+
+let __parse_for(value, segments, i, output) = do
+    value = value.strip()
+    let split = value.splitN(' in ',2)
+    if (split.length == 1) throwError("parsing error in neon.ar", "invalid syntax")
+    let variable = split[0]
+    if ( not __is_variable(variable)) throwError("parsing error in neon.ar", "invalid syntax")
+    let iterable = __parse_value(split[1])
+    if (not iterable.hasParsed) throwError("parsing error in neon.ar", "invalid syntax")
+    for (j from i+1 to segments.length) do
+        let j = (segments.length - j) + i
+        let segment = segments[j]
+        if (segment.type!="code"||segment.command != "endfor") continue
+        if (segment.value.strip(" \n") != "") throwError("parsing error in neon.ar", "invalid syntax")
+        output.append({type:"for", variable:variable, iterable:iterable.value, block: pc.__parse_code(segments[i+1:j-1])})
+        return j
+    return throwError("parsing error in neon.ar", "invalid syntax")

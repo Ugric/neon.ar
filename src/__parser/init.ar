@@ -42,7 +42,7 @@ let __parser(html) = do
                     let command = split[0].lower()
                     if (not __is_variable(command)) parsed = {hasParsed: false, value:null}
                     else do
-                        let value = null
+                        let value = ""
                         if (split.length==2) value = split[1]
                         parsed = {hasParsed: true, value:{type: "code",command:command, value:value}}
                 else if (templateType == 2) parsed = __parse_comment(parsedText)
@@ -66,5 +66,5 @@ let __parser(html) = do
     if (postStrip) output[-1].html=output[-1].html.leftstrip(" \n")
 
     output = __parse_code(output)
-
+    term.log(output)
     return output

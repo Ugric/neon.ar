@@ -1,5 +1,6 @@
 import "../__parse_value/__variable" as *
 import "../__parse_value" as *
+import "../__parse_for" as *
 
 let __parse_code(segments) = do
     let output = []
@@ -15,6 +16,7 @@ let __parse_code(segments) = do
                     let j = (segments.length - j) + i
                     let segment = segments[j]
                     if (segment.type=="code" && segment.command == "endif") do
+                        if (segment.value.strip(" \n") != "") throwError("parsing error in neon.ar", "invalid syntax")
                         let innerSegments = segments[i+1:j]
                         let blocks = []
                         let currentCondition = condition.value
@@ -25,23 +27,25 @@ let __parse_code(segments) = do
                             let currentSegment = innerSegments[k]
                             if (currentSegment.type=="code") do
                                 if (currentSegment.command == "elif" || currentSegment.command == "elseif" || currentSegment.command == "else") do
-                                    blocks.append({condition:currentCondition, block:currentSegments})
+                                    blocks.append({condition:currentCondition, block:__parse_code(currentSegments)})
                                     if (currentSegment.command != "else") do
                                         currentSegments = []
                                         let condition = __parse_value(currentSegment.value)
                                         if (not condition.hasParsed) throwError("parsing error in neon.ar", "invalid syntax")
                                         currentCondition = condition.value
                                     else do
+                                        if (currentSegment.value.strip(" \n") != "") throwError("parsing error in neon.ar", "invalid syntax")
                                         isElse = true
                                         currentSegments = innerSegments[k+1:]
                                         break
                                     continue
                             currentSegments.append(currentSegment)
-                        if (not isElse) blocks.append({condition:currentCondition, block:currentSegments})
+                        if (not isElse) blocks.append({condition:currentCondition, block:__parse_code(currentSegments)})
                         else Else = currentSegments
                         output.append({type:"if", blocks:blocks, else:Else})
                         i = j
                         break
+            else if (command == "for") i = __parse_for(value, segments, i, output)
             else throwError("parsing error in neon.ar", "Unknown command type: "+command)
             i+=1
             continue

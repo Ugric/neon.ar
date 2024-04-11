@@ -7,7 +7,7 @@ let template = neon.template("./templates/index.njk")
 term.timeEnd("template")
 
 term.time("render")
-let render = template.render({username:"Ugric", title:"Ugric's Profile"})
+let render = template.render({username:"Oli", title:"Oli's Profile"})
 term.timeEnd("render")
 term.timeEnd("both")
 

@@ -41,3 +41,20 @@ __switch.if(segment, stack) = do
         let condition = __render(segment.blocks[i].condition, stack)
         if (condition) return __render_segments(segment.blocks[i].block, stack.concat([{}]))
     return __render_segments(segment.else, stack.concat([{}]))
+
+
+__switch.for(segment, stack) = do
+    term.log(segment)
+    let iterable = __render(segment.iterable, stack)
+    if (iterable.length == 0) return
+    let loop = {first: iterable[0], last: iterable[iterable.length-1], length:iterable.length}
+    let output = []
+    for (i from 0 to loop.length) do
+        loop.index = i+1
+        loop.index0 = i+1
+        loop.revindex = loop.length - loop.index
+        loop.revindex0 = loop.revindex = loop.length - loop.index0
+        let scope = {loop:loop}
+        scope[segment.variable] = iterable[i]
+        output.append(__render_segments(segment.block, stack.concat([scope])))
+    return output.join('')
