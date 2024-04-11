@@ -15,6 +15,6 @@ let __parse_for(value, segments, i, output) = do
         let segment = segments[j]
         if (segment.type!="code"||segment.command != "endfor") continue
         if (segment.value.strip(" \n") != "") throwError("parsing error in neon.ar", "invalid syntax")
-        output.append({type:"for", variable:variable, iterable:iterable.value, block: pc.__parse_code(segments[i+1:j-1])})
+        output.append({type:"for", variable:variable, iterable:iterable.value, block: pc.__parse_code(segments[i+1:j])})
         return j
     return throwError("parsing error in neon.ar", "invalid syntax")

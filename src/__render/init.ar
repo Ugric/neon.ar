@@ -44,7 +44,6 @@ __switch.if(segment, stack) = do
 
 
 __switch.for(segment, stack) = do
-    term.log(segment)
     let iterable = __render(segment.iterable, stack)
     if (iterable.length == 0) return
     let loop = {first: iterable[0], last: iterable[iterable.length-1], length:iterable.length}

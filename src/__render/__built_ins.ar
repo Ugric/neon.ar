@@ -5,4 +5,10 @@ let create_built_ins() = do
         if (args.length != 1) throwError("Runtime Error", "length filter takes exactly 1 argument")
         return args[0].length
     
+    built_ins.range(args, kargs) = do
+        if (args.length != 1) throwError("Runtime Error", "length filter takes exactly 1 argument")
+        let class = {}
+        let iterations = args[0]
+        
+
     return built_ins
