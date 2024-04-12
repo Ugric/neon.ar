@@ -7,7 +7,7 @@
     <body>
         <h1>Home</h1>
         <p>Hi, {{username}}</p>
-        {%- for char in range(10)-%}
+        {%- for char in 10|range-%}
         <h1>{{char}} {{loop.index}}</h1>
         <h1>Hello, {%if username=="sus"-%}
             <h1>{{username}}</h1>

@@ -2,15 +2,11 @@ import "src" as neon
 
 
 term.time("both")
-term.time("template")
-let template = neon.template("./templates/index.njk")
-term.timeEnd("template")
-
-term.time("render")
-let render = template.render({username:"Oli", title:"Oli's Profile"})
-term.timeEnd("render")
+let cache = neon.cache(path.join([program.cwd, "templates"]))
+let template = cache.template("index.njk")
+let render = template.render({title: "Hello, World!",username: "This is a test of the Neon templating engine."})
 term.timeEnd("both")
 
-let File = file.write("output.html")
+let File = file.write("output.njk")
 File.text(render)
 File.close()

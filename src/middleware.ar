@@ -1,0 +1,8 @@
+import "cache" as __cache
+
+let middleware(rootPath) = do
+    let cache = __cache.cache(rootPath)
+    return (req,res) = do
+        res.render(filename, data) = do
+            res.send(cache.template(filename).render(data))
+        res.next()

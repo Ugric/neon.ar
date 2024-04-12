@@ -1,0 +1,13 @@
+import "template" as  __template
+
+let cache(rootPath) = do
+    let cache = {}
+    let obj = {}
+    obj.template(filepath) = do
+        if (filepath in cache) return cache[filepath]
+        let parsed_template = __template.template(path.join([rootPath, filepath]))
+        let obj = {}
+        obj.render(data) = parsed_template.render(data)
+        cache[filepath] = obj
+        return obj
+    return obj

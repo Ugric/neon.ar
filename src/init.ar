@@ -1,2 +1,5 @@
-import "template" as *
+if (ArgonVersionNumber < 3) throwError("Runtime Error","Argon version 3.0.5 or higher required, current version is " + ArgonVersion)
 
+import "template" as *
+import "cache" as *
+import "middleware" as *

@@ -1,0 +1,13 @@
+import "http.ar" as http
+import "../src" as neon
+
+let app = http.server()
+
+app.use(neon.middleware(path.join([program.cwd, "..", "templates"])))
+
+let home(req,res)=do
+    res.render("index.njk", {username: req.query.get_value("username")})
+
+app.get("/",home)
+
+app.run()
