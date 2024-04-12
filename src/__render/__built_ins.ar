@@ -7,8 +7,10 @@ let create_built_ins() = do
     
     built_ins.range(args, kargs) = do
         if (args.length != 1) throwError("Runtime Error", "length filter takes exactly 1 argument")
-        let class = {}
+        let obj = {length: args[0]}
+        obj.__getindex__(index) = do
+            return index
         let iterations = args[0]
-        
+        return obj.object()
 
     return built_ins

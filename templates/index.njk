@@ -7,17 +7,18 @@
     <body>
         <h1>Home</h1>
         <p>Hi, {{username}}</p>
-        {%- for char in username-%}
+        {%- for char in range(10)-%}
         <h1>{{char}} {{loop.index}}</h1>
-        {%- endfor %}
         <h1>Hello, {%if username=="sus"-%}
             <h1>{{username}}</h1>
         {%-elif username=="Ugric"-%}
             Master
         {%-elseif username=="Oli"-%}
             sussy baka
+            
         {%-else-%}
         Mortal
         {%-endif%}</h1>
+        {%- endfor %}
     </body>
 </html>
